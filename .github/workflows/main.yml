@@ -1,6 +1,6 @@
 name: Checkout
 
-on: [workflow_dispatch]
+on: [workflow_dispatch, push ]
 
 jobs:
   build:
@@ -34,7 +34,7 @@ jobs:
         run: docker image push levent2607/cicd-demo:latest  
 
   bring_live:
-    runs-on: [aws-ec2]
+    runs-on: self-hosted
     needs: publish
     steps:
       - name: fetch image
