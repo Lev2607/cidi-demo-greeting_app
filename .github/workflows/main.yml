@@ -1,6 +1,6 @@
 name: Checkout
 
-on: [push]
+on: [workflow_dispatch]
 
 jobs:
   build:
@@ -31,4 +31,17 @@ jobs:
         run: docker image build -t levent2607/cicd-demo .
 
       - name: push image
-        run: docker image push levent2607/cicd-demo:latest      
+        run: docker image push levent2607/cicd-demo:latest  
+
+  bring_live:
+    runs-on: aws-ec2
+
+      steps:
+        - name: fetch image
+          run: docker image pull levent2607/cicd-demo:latest
+
+        - name: remove old container
+          run: docker container rm -f cicd-demo 
+
+        - name: run new container  
+          run: docker container run -d -p 3000:3000 --name cicd-demo levent2607/cicd-demo:latest       
