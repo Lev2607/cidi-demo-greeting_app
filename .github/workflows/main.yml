@@ -34,14 +34,14 @@ jobs:
         run: docker image push levent2607/cicd-demo:latest  
 
   bring_live:
-    runs-on: aws-ec2
+    runs-on: [aws-ec2]
+    needs: publish
+    steps:
+      - name: fetch image
+        run: docker image pull levent2607/cicd-demo:latest
 
-      steps:
-        - name: fetch image
-          run: docker image pull levent2607/cicd-demo:latest
+      - name: remove old container
+        run: docker container rm -f cicd-demo 
 
-        - name: remove old container
-          run: docker container rm -f cicd-demo 
-
-        - name: run new container  
-          run: docker container run -d -p 3000:3000 --name cicd-demo levent2607/cicd-demo:latest       
+      - name: run new container  
+        run: docker container run -d -p 3000:3000 --name cicd-demo levent2607/cicd-demo:latest       
