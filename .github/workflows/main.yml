@@ -27,7 +27,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
 
-      - name: build image: 
+      - name: build image 
         run: docker image build -t levent2607/cicd-demo .
 
       - name: push image
