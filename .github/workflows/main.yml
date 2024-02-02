@@ -3,10 +3,11 @@ name: Checkout
 on: [push]
 
 jobs:
-  strategy:
-    matrix:
-      os: [ubuntu-latest, windows-latest, macos-latest]
   build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    
     runs-on: ${{ matrix.os }}
     steps:
     - name: checkout
